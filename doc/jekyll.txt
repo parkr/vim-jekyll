@@ -1,0 +1,83 @@
+*jekyll.txt* Blogging from the command line should not be tedious.
+
+Author: Joshua Priddle <jpriddle@me.com>
+
+==============================================================================
+INTRODUCTION                                    *jekyll*
+
+This script is intended to automate the process of creating and editing
+Jekyll (http://jekyllrb.com/) blog posts from within vim.
+
+This is a fork of csexton/jekyll.vim (https://github.com/csexton/jekyll.vim/)
+with these improvements:
+
+* Commands to edit/split/vsplit/tabnew a post
+* Tab completion for opening existing posts
+* Recognizes Octopress blogs and others with custom `_posts` directory
+* Customizable template for new posts
+
+==============================================================================
+CONFIGURATION                                   *jekyll-configuration*
+
+There are a few global variables that can be set to adjust the way vim handles
+Jekyll blogs.
+
+                                                *g:jekyll_post_dirs*  >
+    let g:jekyll_post_dirs = ['_posts', '_source/_posts']
+A |List| containing paths to search to identify a Jekyll blog's posts
+directory. For most Jekyll blogs, this will be `_posts`. Octopress posts are
+kept in `_source/_posts`.
+
+                                                *g:jekyll_post_extension*  >
+    let g:jekyll_post_extension = '.markdown'
+The extension used when creating new posts.
+
+                                                *g:jekyll_post_filetype*  >
+    let g:jekyll_post_filetype = 'liquid'
+The |filetype| used when creating new posts.
+
+                                                *g:jekyll_post_template*  >
+    let g:jekyll_post_template =  [
+      \ '---',
+      \ 'layout: post',
+      \ 'title: "JEKYLL_TITLE"',
+      \ '---',
+      \ '']
+A |List| containing lines to used as a template when creating new posts.
+
+==============================================================================
+COMMANDS                                        *jekyll-commands*
+
+The |:Jpost| (Jekyll post) command is used to create and edit blog posts. It
+has variants for opening a post in a horizontal or vertical split or a new
+tab. Call with a bang, (eg: :Jpost!) to create a new post. Call without a bang
+(eg: :Jpost) to edit a post. The |:Jbuild| command can be used to build a
+blog.
+
+                                                *jekyll-:Jpost*
+:Jpost[!]  [{name}] Create or edit the specified post. With no argument, you
+                    will be prompted to select a post or enter a title.
+
+                                                *jekyll-:JSpost*
+:JSpost[!] [{name}] Same as |:Jpost|, but opens post in a horizontal split.
+
+                                                *jekyll-:JVpost*
+:JVpost[!] [{name}] Same as |:Jpost|, but opens post in a vertical split.
+
+                                                *jekyll-:JTpost*
+:JTpost[!] [{name}] Same as |:Jpost|, but opens post in a tab.
+
+                                                *jekyll-:Jbuild*
+:Jbuild [{args}]    Run the `jekyll` command with the supplied arguments.
+
+==============================================================================
+ABOUT                                           *jekyll-about*
+
+Grab the latest version or report a bug on Github:
+
+https://github.com/itspriddle/vim-jekyll/
+
+                                                *jekyll-license*
+Distributed under the same terms as Vim itself. See |license|.
+
+ vim:tw=78:et:ft=help:norl:
