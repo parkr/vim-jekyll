@@ -236,8 +236,13 @@ function! s:init(path)
   let b:jekyll_root_dir = root_dir
   let b:jekyll_post_dir = post_dir
 
-  call s:register_commands()
+  silent doautocmd User Jekyll
 endfunction
+
+augroup jekyll_commands
+  autocmd!
+  autocmd User Jekyll call s:register_commands()
+augroup END
 
 augroup jekyll_init
   autocmd!
