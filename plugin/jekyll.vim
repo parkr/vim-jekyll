@@ -128,6 +128,8 @@ function! s:create_post(cmd, ...)
 
   if empty(title)
     return s:error("You must specify a title")
+  elseif filereadable(b:jekyll_post_dir.'/'.title.g:jekyll_post_extension)
+    return s:error(title." already exists!")
   endif
 
   call s:load_post(a:cmd, s:post_filename(title))
