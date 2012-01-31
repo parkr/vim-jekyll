@@ -34,7 +34,12 @@ a blog.
 
     :JTpost[!] [{name}] Same as :Jpost, but opens post in a tab.
 
-    :Jbuild    [{args}] Run the `jekyll` command with the supplied arguments.
+    :Jbuild    [{args}] Generate blog. By default, this runs
+                        `jekyll --no-auto --no-server ARGS` so it doesn't
+                        permanently block Vim. If a Gemfile is found, it will
+                        run `bundle exec jekyll --no-auto --no-server ARGS`.
+                        If neither of these fits your situation, you can set a
+                        custom command with g:jekyll_build_command
 
 See also `:help jekyll-commands`.
 
