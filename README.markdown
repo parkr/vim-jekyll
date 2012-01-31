@@ -15,6 +15,7 @@ improvements:
 * Tab completion for opening existing posts
 * Recognizes Octopress blogs and others with custom `_posts` directory
 * Customizable template for new posts
+* Customizable build command, with automatic support for bundler
 
 ## Commands
 

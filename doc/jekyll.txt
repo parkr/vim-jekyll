@@ -8,13 +8,14 @@ INTRODUCTION                                    *jekyll*
 This script is intended to automate the process of creating and editing
 Jekyll (http://jekyllrb.com/) blog posts from within vim.
 
-This is a fork of csexton/jekyll.vim (https://github.com/csexton/jekyll.vim/)
-with these improvements:
+This is complete rewrite of csexton/jekyll.vim
+(https://github.com/csexton/jekyll.vim/) with these improvements:
 
 * Commands to edit/split/vsplit/tabnew a post
 * Tab completion for opening existing posts
 * Recognizes Octopress blogs and others with custom `_posts` directory
 * Customizable template for new posts
+* Customizable build command, with automatic support for bundler
 
 ==============================================================================
 CONFIGURATION                                   *jekyll-configuration*
@@ -45,6 +46,10 @@ The |filetype| used when creating new posts.
       \ '']
 A |List| containing lines to used as a template when creating new posts.
 
+                                                *g:jekyll_build_command*  >
+    let g:jekyll_build_command = 'jekyll --no-auto --no-server'
+Custom command to use to build your blog.
+
 ==============================================================================
 COMMANDS                                        *jekyll-commands*
 
@@ -68,7 +73,12 @@ blog.
 :JTpost[!] [{name}] Same as |:Jpost|, but opens post in a tab.
 
                                                 *jekyll-:Jbuild*
-:Jbuild [{args}]    Run the `jekyll` command with the supplied arguments.
+:Jbuild [{args}]    Generate blog. By default, this runs
+                    `jekyll --no-auto --no-server ARGS` so it doesn't
+                    permanently block Vim. If a Gemfile is found, it will run
+                    `bundle exec jekyll --no-auto --no-server ARGS`. If
+                    neither of these fits your situation, you can set a custom
+                    command with |g:jekyll_build_command|.
 
 ==============================================================================
 ABOUT                                           *jekyll-about*

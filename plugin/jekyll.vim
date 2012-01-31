@@ -163,6 +163,31 @@ function! s:open_post(create, cmd, ...)
   endif
 endfunction
 
+" Return 'jekyll' or 'bundle exec jekyll'
+function! s:jekyll_build(cmd)
+  if exists('g:jekyll_build_command') && ! empty(g:jekyll_build_command)
+    let bin = g:jekyll_build_command.' '
+  elseif filereadable(b:jekyll_root_dir.'/Gemfile')
+    let bin = 'bundle exec jekyll --no-auto --no-server'
+  else
+    let bin = 'jekyll --no-auto --no-server'
+  endif
+
+  echo 'Building, this may take a moment'
+  let lines = system(bin.a:cmd)
+
+  if v:shell_error != 0
+    call s:error("Error building site, ". v:errmsg)
+  else
+    echo "Site built!"
+  endif
+endfunction
+
+" Register a new user command
+function! s:register_command(cmd)
+  exe "command! -buffer ".a:cmd
+endfunction
+
 " }}}
 
 " Initialization {{{
@@ -175,10 +200,10 @@ endfunction
 " :JTpost[!] - edit in a new tab
 function! s:register_commands()
   for cmd in ['', 'S', 'V', 'T']
-    exe 'command! -buffer -bang -nargs=? -complete=customlist,s:post_list J'.cmd.'post :call s:open_post(<bang>0, "'.cmd.'", <q-args>)'
+    call s:register_command('-bang -nargs=? -complete=customlist,s:post_list J'.cmd.'post :call s:open_post(<bang>0, "'.cmd.'", <q-args>)')
   endfor
 
-  command! -buffer -nargs=* Jbuild :exe "!jekyll <args>"
+  call s:register_command('-nargs=* Jbuild call s:jekyll_build("<args>")')
 endfunction
 
 " Try to locate the _posts directory
