@@ -43,7 +43,7 @@ endif
 " Print an error message
 function! s:error(string)
   echohl ErrorMsg
-  echomsg a:string
+  echomsg "Error: ".a:string
   echohl None
   let v:errmsg = a:string
 endfunction
@@ -137,7 +137,7 @@ function! s:create_post(cmd, ...)
   let error = append(0, g:jekyll_post_template)
 
   if error > 0
-    return s:error("Error creating post")
+    return s:error("Couldn't create post.")
   else
     let &ft = g:jekyll_post_filetype
     silent! %s/JEKYLL_TITLE/\=s:post_title(title)/g
@@ -179,7 +179,7 @@ function! s:jekyll_build(cmd)
   let lines = system(bin.a:cmd)
 
   if v:shell_error != 0
-    call s:error("Error building site, ". v:errmsg)
+    return s:error("Build failed, ". v:errmsg)
   else
     echo "Site built!"
   endif
