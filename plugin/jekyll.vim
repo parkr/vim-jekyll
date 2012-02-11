@@ -37,6 +37,12 @@ if ! exists('g:jekyll_post_template')
     \ '']
 endif
 
+" Directory to place generated files in, relative to b:jekyll_root_dir.
+" Usually _site
+if ! exists('g:jekyll_site_dir')
+  let g:jekyll_site_dir = '_site'
+endif
+
 " }}}
 
 " Utility functions {{{
@@ -169,18 +175,28 @@ function! s:open_post(create, cmd, ...)
   endif
 endfunction
 
+" Return the command used to build the blog.
+function! s:jekyll_bin()
+  let bin = 'jekyll --no-auto --no-server '
+
+  if filereadable(b:jekyll_root_dir.'/Gemfile')
+    let bin = 'bundle exec '.bin
+  endif
+
+  let bin .= b:jekyll_root_dir.' '.b:jekyll_root_dir.'/'.g:jekyll_site_dir
+  return bin
+endfunction
+
 " Return 'jekyll' or 'bundle exec jekyll'
 function! s:jekyll_build(cmd)
   if exists('g:jekyll_build_command') && ! empty(g:jekyll_build_command)
-    let bin = g:jekyll_build_command.' '
-  elseif filereadable(b:jekyll_root_dir.'/Gemfile')
-    let bin = 'bundle exec jekyll --no-auto --no-server'
+    let bin = g:jekyll_build_command
   else
-    let bin = 'jekyll --no-auto --no-server'
+    let bin = s:jekyll_bin()
   endif
 
   echo 'Building, this may take a moment'
-  let lines = system(bin.a:cmd)
+  let lines = system(bin.' '.a:cmd)
 
   if v:shell_error != 0
     return s:error("Build failed, ". v:errmsg)
