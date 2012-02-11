@@ -21,7 +21,7 @@ This is complete rewrite of csexton/jekyll.vim
 CONFIGURATION                                   *jekyll-configuration*
 
 There are a few global variables that can be set to adjust the way vim handles
-Jekyll blogs.
+Jekyll blogs. Default values for each are listed below unless noted.
 
                                                 *g:jekyll_post_dirs*  >
     let g:jekyll_post_dirs = ['_posts', '_source/_posts']
@@ -42,13 +42,20 @@ The |filetype| used when creating new posts.
       \ '---',
       \ 'layout: post',
       \ 'title: "JEKYLL_TITLE"',
+      \ 'date: "JEKYLL_DATE"',
       \ '---',
       \ '']
 A |List| containing lines to used as a template when creating new posts.
+JEKYLL_DATE and JEKYLL_TITLE will be replaced with their real values.
+
+                                                *g:jekyll_site_dir*  >
+    let g:jekyll_site_dir = '_site'
+Directory to place generated files in when running the |:Jbuild| command.
+Relative to the root of your blog.
 
                                                 *g:jekyll_build_command*  >
     let g:jekyll_build_command = 'jekyll --no-auto --no-server'
-Custom command to use to build your blog.
+Custom command to use to build your blog. By default this is unset.
 
 ==============================================================================
 COMMANDS                                        *jekyll-commands*
@@ -73,12 +80,15 @@ blog.
 :JTpost[!] [{name}] Same as |:Jpost|, but opens post in a tab.
 
                                                 *jekyll-:Jbuild*
-:Jbuild [{args}]    Generate blog. By default, this runs
-                    `jekyll --no-auto --no-server ARGS` so it doesn't
-                    permanently block Vim. If a Gemfile is found, it will run
-                    `bundle exec jekyll --no-auto --no-server ARGS`. If
-                    neither of these fits your situation, you can set a custom
-                    command with |g:jekyll_build_command|.
+:Jbuild [{args}]    Generate blog. This will check for the presence of a
+                    Gemfile; if found `bundle exec` is used to run the
+                    `jekyll` command. The blog will be built with: >
+
+            jekyll --no-auto --no-server BLOG_ROOT BLOG_ROOT/SITE_DIR <args>
+<
+                    If this doesn't fit your situation, you can set a custom
+                    command with |g:jekyll_build_command|. When using a custom
+                    command no check for a Gemfile is performed.
 
 ==============================================================================
 ABOUT                                           *jekyll-about*
