@@ -34,12 +34,16 @@ a blog.
 
     :JTpost[!] [{name}] Same as :Jpost, but opens post in a tab.
 
-    :Jbuild    [{args}] Generate blog. By default, this runs
-                        `jekyll --no-auto --no-server ARGS` so it doesn't
-                        permanently block Vim. If a Gemfile is found, it will
-                        run `bundle exec jekyll --no-auto --no-server ARGS`.
-                        If neither of these fits your situation, you can set a
-                        custom command with g:jekyll_build_command
+    :Jbuild    [{args}] Generate blog. This will check for the presence of a
+                        Gemfile; if found `bundle exec` is used to run the
+                        `jekyll` command. The blog will be built with:
+
+                jekyll --no-auto --no-server BLOG_ROOT BLOG_ROOT/SITE_DIR <args>
+
+                        If this doesn't fit your situation, you can set a
+                        custom command with `g:jekyll_build_command`. When
+                        using a custom command no check for a Gemfile is
+                        performed.
 
 See also `:help jekyll-commands`.
 
