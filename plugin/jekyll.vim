@@ -210,18 +210,18 @@ endfunction
 
 " Try to locate the _posts directory
 function! s:find_jekyll(path) abort
-  for dir in g:jekyll_post_dirs
-    let dir      = s:escape_path(dir)
-    let cur_path = a:path
-    let old_path = ""
-    while old_path != cur_path
+  let cur_path = a:path
+  let old_path = ""
+  while old_path != cur_path
+    for dir in g:jekyll_post_dirs
+      let dir      = s:escape_path(dir)
       if isdirectory(cur_path.'/'.dir)
         return [cur_path, cur_path.'/'.dir]
       endif
-      let old_path = cur_path
-      let cur_path = fnamemodify(old_path, ':h')
-    endwhile
-  endfor
+    endfor
+    let old_path = cur_path
+    let cur_path = fnamemodify(old_path, ':h')
+  endwhile
   return ['', '']
 endfunction
 
