@@ -206,7 +206,7 @@ function! s:jekyll_build(cmd)
 endfunction
 
 " Register a new user command
-function! s:register_command(cmd)
+function! s:define_command(cmd)
   exe "command! -buffer ".a:cmd
 endfunction
 
@@ -222,10 +222,10 @@ endfunction
 " :JTpost[!] - edit in a new tab
 function! s:register_commands()
   for cmd in ['', 'S', 'V', 'T']
-    call s:register_command('-bang -nargs=? -complete=customlist,s:post_list J'.cmd.'post :call s:open_post(<bang>0, "'.cmd.'", <q-args>)')
+    call s:define_command('-bang -nargs=? -complete=customlist,s:post_list J'.cmd.'post :call s:open_post(<bang>0, "'.cmd.'", <q-args>)')
   endfor
 
-  call s:register_command('-nargs=* Jbuild call s:jekyll_build("<args>")')
+  call s:define_command('-nargs=* Jbuild call s:jekyll_build("<args>")')
 endfunction
 
 " Try to locate the _posts directory
