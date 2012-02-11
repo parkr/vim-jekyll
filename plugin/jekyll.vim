@@ -98,8 +98,8 @@ endfunction
 "
 " Strips whitespace and escapes double quotes
 function! s:post_title(title)
-  let title = s:gsub(a:title, "(^[ ]*|[ ]*$)", '')
-  let title = s:gsub(title, "[ ]{2,}", ' ')
+  let title = s:gsub(a:title, '(^[ ]*|[ ]*$)', '')
+  let title = s:gsub(title, '[ ]{2,}', ' ')
   let title = s:gsub(title, '"', '\\&')
   return title
 endfunction
@@ -199,15 +199,15 @@ function! s:jekyll_build(cmd)
   let lines = system(bin.' '.a:cmd)
 
   if v:shell_error != 0
-    return s:error("Build failed")
+    return s:error('Build failed')
   else
-    echo "Site built!"
+    echo 'Site built!'
   endif
 endfunction
 
 " Register a new user command
 function! s:define_command(cmd)
-  exe "command! -buffer ".a:cmd
+  exe 'command! -buffer '.a:cmd
 endfunction
 
 " }}}
