@@ -93,7 +93,7 @@ endfunction
 
 " Returns the filename for a new post based on it's title.
 function! s:post_filename(title)
-  return b:jekyll_post_dir.'/'.strftime("%Y-%m-%d-").s:dasherize(a:title).g:jekyll_post_extension
+  return b:jekyll_post_dir.'/'.strftime('%Y-%m-%d-').s:dasherize(a:title).g:jekyll_post_extension
 endfunction
 "
 " Strips whitespace and escapes double quotes
@@ -123,7 +123,7 @@ function! s:load_post(cmd, filename)
   let cmds = {'E': 'edit', 'S': 'split', 'V': 'vsplit', 'T': 'tabnew'}
 
   if ! has_key(cmds, cmd)
-    return s:error("Invalid command: ". cmd)
+    return s:error('Invalid command: '. cmd)
   else
     execute cmds[cmd]." ".a:filename
   endif
@@ -131,12 +131,12 @@ endfunction
 
 " Create a new blog post
 function! s:create_post(cmd, ...)
-  let title = a:0 && ! empty(a:1) ? a:1 : input("Post title: ")
+  let title = a:0 && ! empty(a:1) ? a:1 : input('Post title: ')
 
   if empty(title)
-    return s:error("You must specify a title")
+    return s:error('You must specify a title')
   elseif filereadable(b:jekyll_post_dir.'/'.title.g:jekyll_post_extension)
-    return s:error(title." already exists!")
+    return s:error(title.' already exists!')
   endif
 
   call s:load_post(a:cmd, s:post_filename(title))
@@ -161,7 +161,7 @@ function! s:edit_post(cmd, post)
   if filereadable(file)
     return s:load_post(a:cmd, file)
   else
-    return s:error("File ".file." does not exist! Try :J".a:cmd."post! to create a new post.")
+    return s:error('File '.file.' does not exist! Try :J'.a:cmd.'post! to create a new post.')
   endif
 endfunction
 
