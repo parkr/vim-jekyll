@@ -28,10 +28,11 @@ endif
 
 " Template for new posts
 if ! exists('g:jekyll_post_template')
-  let g:jekyll_post_template =  [
+  let g:jekyll_post_template = [
     \ '---',
     \ 'layout: post',
     \ 'title: "JEKYLL_TITLE"',
+    \ 'date: "JEKYLL_DATE"',
     \ '---',
     \ '']
 endif
@@ -140,7 +141,10 @@ function! s:create_post(cmd, ...)
     return s:error("Couldn't create post.")
   else
     let &ft = g:jekyll_post_filetype
+
+    let date = strftime('%a %b %d %T %z %Y')
     silent! %s/JEKYLL_TITLE/\=s:post_title(title)/g
+    silent! %s/JEKYLL_DATE/\=date/g
   endif
 endfunction
 
