@@ -199,7 +199,7 @@ function! s:jekyll_build(cmd)
   let lines = system(bin.' '.a:cmd)
 
   if v:shell_error != 0
-    return s:error("Build failed, ". v:errmsg)
+    return s:error("Build failed")
   else
     echo "Site built!"
   endif
