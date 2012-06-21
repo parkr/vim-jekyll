@@ -110,7 +110,9 @@ function! s:post_list(A, L, P)
   let data     = s:gsub(glob(prefix.'*.*')."\n", prefix, '')
   let data     = s:gsub(data, '\'.g:jekyll_post_extension."\n", "\n")
   let files    = reverse(split(data, "\n"))
-  let filtered = filter(copy(files), 's:startswith(v:val, a:A)')
+  " select the completion candidates using a substring match on the first argument
+  " instead of a prefix match (I consider this to be more user friendly)
+  let filtered = filter(copy(files), 'v:val =~ a:A')
 
   if ! empty(filtered)
     return filtered
