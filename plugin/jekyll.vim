@@ -179,13 +179,13 @@ endfunction
 
 " Return the command used to build the blog.
 function! s:jekyll_bin()
-  let bin = 'jekyll --no-auto --no-server '
+  let bin = 'jekyll build '
 
   if filereadable(b:jekyll_root_dir.'/Gemfile')
     let bin = 'bundle exec '.bin
   endif
 
-  let bin .= b:jekyll_root_dir.' '.b:jekyll_root_dir.'/'.g:jekyll_site_dir
+  let bin .= ' -s '.b:jekyll_root_dir.' -d '.b:jekyll_root_dir.'/'.g:jekyll_site_dir
   return bin
 endfunction
 
