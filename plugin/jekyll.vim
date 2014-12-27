@@ -87,6 +87,10 @@ function! s:dasherize(string)
   return string
 endfunction
 
+function! s:yaml_formatted_date
+  return strftime("%Y-%m-%d %H:%M:%S %z")
+endfunction
+
 " }}}
 
 " Post functions {{{
@@ -152,7 +156,7 @@ function! s:create_post(cmd, ...)
 
     let date = strftime('%a %b %d %T %z %Y')
     silent! %s/JEKYLL_TITLE/\=s:post_title(title)/g
-    silent! %s/JEKYLL_DATE/\=date/g
+    silent! %s/JEKYLL_DATE/\=s:yaml_formatted_date()/g
   endif
 endfunction
 
