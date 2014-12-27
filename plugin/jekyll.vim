@@ -87,7 +87,7 @@ function! s:dasherize(string)
   return string
 endfunction
 
-function! s:yaml_formatted_date
+function! s:yaml_formatted_date()
   return strftime("%Y-%m-%d %H:%M:%S %z")
 endfunction
 
